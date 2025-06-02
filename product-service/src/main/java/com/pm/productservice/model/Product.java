@@ -105,14 +105,4 @@ public class Product {
         this.updatedAt = updatedAt;
     }
 
-
-    @PrePersist
-    public void generateSlug() {
-        if(this.slug == null && this.title != null) {
-            this.slug = this.title.toLowerCase()
-                    .replaceAll("[^a-zA-Z0-9]", "-")
-                    .replaceAll("^-+|-+$", "");
-        }
-    }
-
 }

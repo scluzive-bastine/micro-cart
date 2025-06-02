@@ -1,12 +1,11 @@
 package com.pm.productservice.controller;
 
+import com.pm.productservice.dto.ProductRequestDTO;
 import com.pm.productservice.dto.ProductResponseDTO;
 import com.pm.productservice.service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,5 +22,13 @@ public class ProductController {
     public ResponseEntity<List<ProductResponseDTO>> getAllProducts() {
         List<ProductResponseDTO> products = productService.getProducts();
         return ResponseEntity.ok(products);
+    }
+
+    @PostMapping
+    public ResponseEntity<ProductResponseDTO> createProduct(@Valid @RequestBody ProductRequestDTO productRequestDTO) {
+        ProductResponseDTO productResponseDTO = productService.createProduct(productRequestDTO);
+
+        return ResponseEntity.ok(productResponseDTO);
+
     }
 }
