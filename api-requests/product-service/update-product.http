@@ -1,0 +1,12 @@
+### Update an existing product
+PUT http://localhost:4000/products/cd272af9-5ab2-4796-9f85-2978721a96f3
+Content-Type: application/json
+
+{
+  "title": "Minimalist white desk",
+  "description": "Apple minimal brown mouse ",
+  "price": 299.99,
+  "imageUrl": "https://example.com/img/apple-mouse.jpg"
+}
+
+###

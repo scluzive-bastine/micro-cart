@@ -1,0 +1,3 @@
+### DELETE A PRODUCT
+DELETE  http://localhost:4000/products/6a4566dc-5a68-498c-91fa-166a389dfcb1
+###
