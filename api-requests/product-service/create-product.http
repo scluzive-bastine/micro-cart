@@ -1,4 +1,4 @@
-### POST Create a new product
+### POST Create a new Product
 POST http://localhost:4000/products
 Content-Type: application/json
 

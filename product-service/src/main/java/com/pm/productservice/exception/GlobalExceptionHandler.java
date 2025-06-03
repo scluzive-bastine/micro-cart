@@ -28,7 +28,7 @@ public class GlobalExceptionHandler {
         log.warn("Product not found: {}", ex.getMessage());
 
         Map<String, String> errors = new HashMap<>();
-        errors.put("message", "Product Not Found");
+        errors.put("message", "Product Not Found in DB");
 
         return ResponseEntity.badRequest().body(errors);
     }
