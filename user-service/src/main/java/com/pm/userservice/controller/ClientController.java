@@ -1,11 +1,11 @@
 package com.pm.userservice.controller;
 
+import com.pm.userservice.dto.ClientRequestDTO;
 import com.pm.userservice.dto.ClientResponseDTO;
 import com.pm.userservice.service.ClientService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,8 +19,15 @@ public class ClientController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ClientResponseDTO>> getAllUsers() {
+    public ResponseEntity<List<ClientResponseDTO>> getAllClients() {
         List<ClientResponseDTO> users = clientService.getUsers();
         return ResponseEntity.ok(users);
+    }
+
+    @PostMapping
+    public ResponseEntity<ClientResponseDTO> createClient(@Validated @RequestBody ClientRequestDTO clientRequestDTO) {
+        ClientResponseDTO clientResponseDTO = clientService.createClient(clientRequestDTO);
+
+        return ResponseEntity.ok().body(clientResponseDTO);
     }
 }

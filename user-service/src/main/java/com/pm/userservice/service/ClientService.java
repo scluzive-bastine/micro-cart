@@ -1,5 +1,6 @@
 package com.pm.userservice.service;
 
+import com.pm.userservice.dto.ClientRequestDTO;
 import com.pm.userservice.dto.ClientResponseDTO;
 import com.pm.userservice.mapper.ClientMapper;
 import com.pm.userservice.model.Client;
@@ -20,5 +21,10 @@ public class ClientService {
         List<Client> clients = clientRepository.findAll();
 
         return clients.stream().map(ClientMapper::toDTO).toList();
+    }
+
+    public ClientResponseDTO createClient(ClientRequestDTO clientRequestDTO) {
+        Client newClient = clientRepository.save(ClientMapper.toModel(clientRequestDTO));
+        return ClientMapper.toDTO(newClient);
     }
 }

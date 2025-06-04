@@ -1,5 +1,6 @@
 package com.pm.userservice.mapper;
 
+import com.pm.userservice.dto.ClientRequestDTO;
 import com.pm.userservice.dto.ClientResponseDTO;
 import com.pm.userservice.model.Client;
 
@@ -14,5 +15,13 @@ public class ClientMapper {
         clientDTO.setCreatedAt(client.getCreatedAt().toString());
         clientDTO.setUpdatedAt(client.getUpdatedAt().toString());
         return clientDTO;
+    }
+
+    public static Client toModel(ClientRequestDTO clientRequestDTO) {
+        Client client = new Client();
+        client.setName(clientRequestDTO.getName());
+        client.setEmail(clientRequestDTO.getEmail());
+        client.setBio(clientRequestDTO.getBio());
+        return client;
     }
 }

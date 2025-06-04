@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class ProductService {
+public class    ProductService {
     private final ProductRepository productRepository;
 
     public ProductService(ProductRepository productRepository) {
