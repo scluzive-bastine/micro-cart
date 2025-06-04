@@ -2,12 +2,15 @@ package com.pm.userservice.service;
 
 import com.pm.userservice.dto.ClientRequestDTO;
 import com.pm.userservice.dto.ClientResponseDTO;
+import com.pm.userservice.exception.ClientNotFoundException;
+import com.pm.userservice.exception.EmailAlreadyExistsException;
 import com.pm.userservice.mapper.ClientMapper;
 import com.pm.userservice.model.Client;
 import com.pm.userservice.repository.ClientRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ClientService {
@@ -24,7 +27,36 @@ public class ClientService {
     }
 
     public ClientResponseDTO createClient(ClientRequestDTO clientRequestDTO) {
+        if(clientRepository.existsByEmail(clientRequestDTO.getEmail())) {
+            throw new EmailAlreadyExistsException(
+                    "A client with this email " + "already exists"
+                            + clientRequestDTO.getEmail());
+        }
         Client newClient = clientRepository.save(ClientMapper.toModel(clientRequestDTO));
         return ClientMapper.toDTO(newClient);
+    }
+
+    public ClientResponseDTO updateClient(UUID id, ClientRequestDTO clientRequestDTO) {
+
+        Client client = clientRepository.findById(id).orElseThrow(
+                () -> new ClientNotFoundException("Client with id " + id + " not found")
+        );
+
+        if(clientRepository.existsByEmailAndIdNot(client.getEmail(), id)) {
+            throw new EmailAlreadyExistsException(
+                    "A client with this email " + "already exists" + clientRequestDTO.getEmail()
+            );
+        }
+
+        client.setName(clientRequestDTO.getName());
+        client.setEmail(clientRequestDTO.getEmail());
+        client.setBio(clientRequestDTO.getBio());
+
+        Client updatedClient = clientRepository.save(client);
+        return ClientMapper.toDTO(updatedClient);
+    }
+
+    public void deleteClient(UUID id) {
+       clientRepository.deleteById(id);
     }
 }

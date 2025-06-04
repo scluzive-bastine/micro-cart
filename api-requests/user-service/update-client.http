@@ -1,0 +1,11 @@
+### UPDATE a client
+PUT http://localhost:4000/clients/013c143d-8a44-4089-b0d7-f9038706c728
+Content-Type: application/json
+
+{
+  "name": "Jude A Smith",
+  "email": "smith@gmail.com",
+  "bio": "Open-source lover and developer"
+}
+
+###

@@ -3,9 +3,9 @@ POST http://localhost:4000/clients
 Content-Type: application/json
 
 {
-    "name": "Jane Moore",
-    "email": "janemoore@gmail.com",
-    "bio": "Design enthusiast and cyclist."
+    "name": "Jude Smith",
+    "email": "smith@gmail.com",
+    "bio": "Open-source lover and dev"
 }
 
 ###
