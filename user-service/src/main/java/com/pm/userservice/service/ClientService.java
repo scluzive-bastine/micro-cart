@@ -4,6 +4,7 @@ import com.pm.userservice.dto.ClientRequestDTO;
 import com.pm.userservice.dto.ClientResponseDTO;
 import com.pm.userservice.exception.ClientNotFoundException;
 import com.pm.userservice.exception.EmailAlreadyExistsException;
+import com.pm.userservice.grpc.BillingServiceGrpcClient;
 import com.pm.userservice.mapper.ClientMapper;
 import com.pm.userservice.model.Client;
 import com.pm.userservice.repository.ClientRepository;
@@ -15,10 +16,13 @@ import java.util.UUID;
 @Service
 public class ClientService {
     private final ClientRepository clientRepository;
+    private final BillingServiceGrpcClient billingServiceGrpcClient;
 
-    public ClientService(ClientRepository clientRepository) {
+    public ClientService(ClientRepository clientRepository, BillingServiceGrpcClient billingServiceGrpcClient) {
         this.clientRepository = clientRepository;
+        this.billingServiceGrpcClient = billingServiceGrpcClient;
     }
+
 
     public List<ClientResponseDTO> getUsers() {
         List<Client> clients = clientRepository.findAll();
@@ -33,6 +37,8 @@ public class ClientService {
                             + clientRequestDTO.getEmail());
         }
         Client newClient = clientRepository.save(ClientMapper.toModel(clientRequestDTO));
+        billingServiceGrpcClient.createBillingAccount(newClient.getId().toString(), newClient.getName(), newClient.getEmail());
+
         return ClientMapper.toDTO(newClient);
     }
 
