@@ -3,9 +3,9 @@ POST http://localhost:4000/clients
 Content-Type: application/json
 
 {
-    "name": "Lucas Bobby",
-    "email": "lucasbobby@gmail.com",
-    "bio": "UI lover and dev"
+    "name": "Lucas Bobby kafka",
+    "email": "lucaskafka@gmail.com",
+    "bio": "UI lover and kafka dev"
 }
 
 ###
