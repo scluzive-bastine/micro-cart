@@ -5,6 +5,7 @@ import com.pm.userservice.dto.ClientResponseDTO;
 import com.pm.userservice.exception.ClientNotFoundException;
 import com.pm.userservice.exception.EmailAlreadyExistsException;
 import com.pm.userservice.grpc.BillingServiceGrpcClient;
+import com.pm.userservice.kafka.KafkaProducer;
 import com.pm.userservice.mapper.ClientMapper;
 import com.pm.userservice.model.Client;
 import com.pm.userservice.repository.ClientRepository;
@@ -17,10 +18,12 @@ import java.util.UUID;
 public class ClientService {
     private final ClientRepository clientRepository;
     private final BillingServiceGrpcClient billingServiceGrpcClient;
+    private final KafkaProducer kafkaProducer;
 
-    public ClientService(ClientRepository clientRepository, BillingServiceGrpcClient billingServiceGrpcClient) {
+    public ClientService(ClientRepository clientRepository, BillingServiceGrpcClient billingServiceGrpcClient, KafkaProducer kafkaProducer) {
         this.clientRepository = clientRepository;
         this.billingServiceGrpcClient = billingServiceGrpcClient;
+        this.kafkaProducer = kafkaProducer;
     }
 
 
@@ -38,6 +41,9 @@ public class ClientService {
         }
         Client newClient = clientRepository.save(ClientMapper.toModel(clientRequestDTO));
         billingServiceGrpcClient.createBillingAccount(newClient.getId().toString(), newClient.getName(), newClient.getEmail());
+
+
+        kafkaProducer.sendEvent(newClient);
 
         return ClientMapper.toDTO(newClient);
     }
