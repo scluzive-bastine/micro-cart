@@ -1,0 +1,21 @@
+server:
+  port: 4004
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: client-service-route
+          uri: http://user-service:4000
+          predicates:
+            - Path=/api/clients/**
+          filters:
+            - StripPrefix=1
+
+
+        - id: api-docs-client-route
+          uri: http://user-service:4000
+          predicates:
+            - Path=/api-docs/clients
+          filters:
+            - RewritePath=/api-docs/clients,/v3/api-docs
