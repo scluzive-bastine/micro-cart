@@ -18,6 +18,7 @@ spring:
             - Path=/api/clients/**
           filters:
             - StripPrefix=1
+            - JwtValidation
 
 
         - id: api-docs-client-route

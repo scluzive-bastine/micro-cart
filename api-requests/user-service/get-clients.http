@@ -1,3 +1,4 @@
 ### GET users request
 GET http://localhost:4004/api/clients
+Authorization: Bearer {{token}}
 ###
